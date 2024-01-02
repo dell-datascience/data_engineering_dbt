@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: staging
+    database: de-project-397922
+    schema: trips_data_all
+
+    tables:
+      - name: partitioned_database_cluster
+      - name: partitioned_database
