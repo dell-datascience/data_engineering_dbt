@@ -72,10 +72,11 @@ def main_flow(month: int, year: int, color: str) ->None:
 
     data_file: str = f"{color}_tripdata_{year}-{month:02}" 
     data_url: str = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{data_file}.csv.gz"
-    data_file: str = f"fhv_tripdata_{year}-{month:02}"
-    data_url:  str = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhv/{data_file}.csv.gz"
+    # data_file: str = f"fhv_tripdata_{year}-{month:02}"
+    # data_url:  str = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhv/{data_file}.csv.gz"
     # os.makedirs(Path(f"new_data/fhv/"), exist_ok=True)
-    # path = Path(f"new_data/fhv/{data_file}.gz")   
+    os.makedirs(Path(f"new_data/{color}/"), exist_ok=True)
+    path = Path(f"new_data/fhv/{data_file}.gz")   
 
     df: df.DataFrame = extract(data_url)
     # df: df.DataFrame = transform(df)
