@@ -76,7 +76,7 @@ def main_flow(month: int, year: int, color: str) ->None:
     # data_url:  str = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhv/{data_file}.csv.gz"
     # os.makedirs(Path(f"new_data/fhv/"), exist_ok=True)
     os.makedirs(Path(f"new_data/{color}/"), exist_ok=True)
-    path = Path(f"new_data/fhv/{data_file}.gz")   
+    path = Path(f"new_data/{data_file}.gz")   
 
     df: df.DataFrame = extract(data_url)
     # df: df.DataFrame = transform(df)
