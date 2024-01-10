@@ -83,8 +83,8 @@ def main_flow(month: int, year: int) ->None:
     load(df, path)
     return None
 
-@flow(name='flow_runner', log_prints=True)
-def flow_runner(months: list[int], year: int)-> None:
+@flow(name='github_gcs_dbt_etl', log_prints=True)
+def github_gcs_dbt_etl(months: list[int], year: int, color: str)-> None:
     """  
     Run the main flow for a list of months
 
@@ -92,7 +92,7 @@ def flow_runner(months: list[int], year: int)-> None:
     """
     
     for month in months:
-        main_flow(month,year)
+        main_flow(month,year, color)
     return None
 
 if __name__=='__main__':
@@ -100,4 +100,4 @@ if __name__=='__main__':
     color = 'yellow'
     year = 2019
     months: list[int] = [1,2,3,4,5,6,7,8,9,10,11,12]
-    flow_runner(months=months,year=year, color=color)
+    github_gcs_dbt_etl(months=months,year=year, color=color)
