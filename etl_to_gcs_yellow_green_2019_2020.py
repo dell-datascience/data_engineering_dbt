@@ -63,7 +63,7 @@ def load(df:pd.DataFrame, path: Path)->None:
     return 
 
 @flow(name='main etl', log_prints=True)
-def main_flow(month: int, year: int) ->None:
+def main_flow(month: int, year: int, color: str) ->None:
     """  
     Main ETL pipeline
 
