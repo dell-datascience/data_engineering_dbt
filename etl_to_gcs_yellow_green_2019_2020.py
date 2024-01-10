@@ -45,7 +45,7 @@ def write_to_local(df:pd.DataFrame, path: Path)->None:
     :return None: None
     """
 
-    df.to_csv(path, compression='gzip')
+    df.to_parquet(path, compression='gzip')
     return path
 
 @task(name="loader",log_prints=True,) # set to True so that the result is logged in Prefect Cloud
