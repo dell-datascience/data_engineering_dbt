@@ -16,6 +16,7 @@ sources:
       tables:
         - name: green_tripdata
         - name: yellow_tripdata
+        - partitioned_database_cluster
          # freshness:
            # error_after: {count: 6, period: hour}
 
