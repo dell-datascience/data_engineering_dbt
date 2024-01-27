@@ -12,15 +12,15 @@ table = client.get_table(table_id)
 # Get the schema
 schema = table.schema
 
-print(schema)
+# print(schema)
 # Modify the type of the 'passenger_count' column
-# for field in schema:
-#     if field.name == 'passenger_count':
-#         field.field_type = 'INT64'
+for field in schema:
+    if field.name == 'passenger_count':
+        field.field_type = 'INT64'
 
-# # Update the table schema
-# table.schema = schema
-# table = client.update_table(table, ["schema"])
+# Update the table schema
+table.schema = schema
+table = client.update_table(table, ["schema"])
 
-# print("Updated table schema:")
-# print(table.schema)
+print("Updated table schema:")
+print(table.schema)
