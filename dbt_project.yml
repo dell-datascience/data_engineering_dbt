@@ -42,7 +42,7 @@ models:
       materialized: view
     core:
       materialized: table
-    schema: dbt_staging
+    # schema: dbt_staging
 
 seeds:
   taxi_rides_ny:
