@@ -76,7 +76,7 @@ def load(df:pd.DataFrame, path: Path)->None:
 
     gcs_block = GcsBucket.load("gcs-bucket")
     gcs_block.upload_from_path(from_path=path,
-                            to_path=path,)
+                               to_path=path)
     return 
 
 @flow(name='main etl', log_prints=True)
@@ -102,20 +102,21 @@ def main_flow(month: int, year: int, color: str) ->None:
     return None
 
 @flow(name='github_gcs_dbt_etl', log_prints=True)
-def github_gcs_dbt_etl(months: list[int], year: int, color: str)-> None:
+def github_gcs_dbt_etl(months: list[int], year: list[int], color: list[str])-> None:
     """  
     Run the main flow for a list of months
 
     :return None: None
     """
-    
-    for month in months:
-        main_flow(month,year, color)
-    return None
+    for color in colors:
+        for year in years:
+            for month in months:
+                main_flow(month,year, color)
+            return None
 
 if __name__=='__main__':
     
-    color = 'yellow'
-    year = 2019
+    colors = ['yellow','green']
+    years = [2019,2020]
     months: list[int] = [1,2,3,4,5,6,7,8,9,10,11,12]
-    github_gcs_dbt_etl(months=months,year=year, color=color)
+    github_gcs_dbt_etl(months=months,year=years, color=colors)
