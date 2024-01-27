@@ -18,8 +18,25 @@ def extract(data_url : str)-> pd.DataFrame:
     :param df: pd.DataFrame 
     :return df: pd.DataFrame
     """
-
-    df: pd.DataFrame = pd.read_csv(data_url) #,parse_dates=[["tpep_pickup_datetime"],"tpep_dropoff_datetime"])
+    schema_dict = {
+                    'VendorID': 'Int64',
+                    'passenger_count': 'Int64',
+                    'trip_distance': 'float64',
+                    'RatecodeID': 'Int64',
+                    'store_and_fwd_flag': 'object',
+                    'PULocationID': 'Int64',
+                    'DOLocationID': 'Int64',
+                    'payment_type': 'Int64',
+                    'fare_amount': 'float64',
+                    'extra': 'float64',
+                    'mta_tax': 'float64',
+                    'tip_amount': 'float64',
+                    'tolls_amount': 'float64',
+                    'improvement_surcharge': 'float64',
+                    'total_amount': 'float64',
+                    'congestion_surcharge': 'float64',
+                    }
+    df: pd.DataFrame = pd.read_csv(data_url).astype(schema_dict) #,parse_dates=[["tpep_pickup_datetime"],"tpep_dropoff_datetime"])
     return df
 
 @task(name='transformer for data', log_prints=True)
