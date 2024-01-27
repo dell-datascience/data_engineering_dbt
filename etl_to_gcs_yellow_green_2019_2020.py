@@ -22,6 +22,7 @@ def extract(data_url : str)-> pd.DataFrame:
                     'VendorID': 'Int64',
                     'passenger_count': 'Int64',
                     'trip_distance': 'float64',
+                    'trip_type': 'Int64',
                     'RatecodeID': 'Int64',
                     'store_and_fwd_flag': 'object',
                     'PULocationID': 'Int64',
