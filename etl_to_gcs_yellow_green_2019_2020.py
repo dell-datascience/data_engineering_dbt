@@ -111,7 +111,7 @@ def github_gcs_dbt_etl(months: list[int], years: list[int], colors: list[str])->
     for color in colors:
         for year in years:
             for month in months:
-                main_flow(month,year, color)
+                main_flow(month=month,year=year, color=color)
     return None
 
 if __name__=='__main__':
