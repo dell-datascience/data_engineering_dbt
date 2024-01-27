@@ -9,14 +9,13 @@ sources:
       # For postgres:
       # database: production
 
-      schema: dbt_adellor
+      schema: trips_data_all
       # path where models are created at
 
       # loaded_at_field: record_loaded_at
       tables:
         - name: green_tripdata
         - name: yellow_tripdata
-        - partitioned_database_cluster
          # freshness:
            # error_after: {count: 6, period: hour}
 
