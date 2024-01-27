@@ -104,7 +104,7 @@ def main_flow(month: int, year: int, color: str) ->None:
 @flow(name='github_gcs_dbt_etl', log_prints=True)
 def github_gcs_dbt_etl(months: list[int], years: list[int], colors: list[str])-> None:
     """  
-    Run the main flow for a list of months
+    Run the main flow for a list of colors, months, months
 
     :return None: None
     """
@@ -112,7 +112,7 @@ def github_gcs_dbt_etl(months: list[int], years: list[int], colors: list[str])->
         for year in years:
             for month in months:
                 main_flow(month,year, color)
-            return None
+    return None
 
 if __name__=='__main__':
     
