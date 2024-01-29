@@ -10,37 +10,56 @@ import os
 
 from yaml import serialize
 
-@task(name='downloads data from url for homework', log_prints=True, retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
-def extract(data_url : str)-> pd.DataFrame:
+@task(name="downloads data from url for homework", log_prints=True, retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
+def extract(data_url : str, color: str)-> pd.DataFrame:
     """  
     Download data from url and return a dataframe.
 
     :param df: pd.DataFrame 
     :return df: pd.DataFrame
     """
-    schema_dict = {
-                    'VendorID': 'Int64',
-                    'passenger_count': 'Int64',
-                    'trip_distance': 'float64',
-                    'trip_type': 'Int64',
-                    'RatecodeID': 'Int64',
-                    'store_and_fwd_flag': 'object',
-                    'PULocationID': 'Int64',
-                    'DOLocationID': 'Int64',
-                    'payment_type': 'Int64',
-                    'fare_amount': 'float64',
-                    'extra': 'float64',
-                    'mta_tax': 'float64',
-                    'tip_amount': 'float64',
-                    'tolls_amount': 'float64',
-                    'improvement_surcharge': 'float64',
-                    'total_amount': 'float64',
-                    'congestion_surcharge': 'float64',
-                    }
-    df: pd.DataFrame = pd.read_csv(data_url).astype(schema_dict) #,parse_dates=[["tpep_pickup_datetime"],"tpep_dropoff_datetime"])
+
+    if color == 'green':
+        schema_dict = {
+                        "VendorID": "Int64",
+                        "passenger_count": "Int64",
+                        "trip_distance": "float64",
+                        "trip_type": "Int64",
+                        "RatecodeID": "Int64",
+                        "store_and_fwd_flag": "object",
+                        "PULocationID": "Int64",
+                        "DOLocationID": "Int64",
+                        "payment_type": "Int64",
+                        "fare_amount": "float64",
+                        "extra": "float64",
+                        "mta_tax": "float64",
+                        "tip_amount": "float64",
+                        "tolls_amount": "float64",
+                        "improvement_surcharge": "float64",
+                        "total_amount": "float64",
+                        "congestion_surcharge": "float64"
+                        }
+    else :
+        schema_dict = {
+                        "VendorID": "Int64",
+                        "passenger_count": "Int64",
+                        "RatecodeID": "Int64",
+                        "store_and_fwd_flag": "object",
+                        "PULocationID": "Int64",
+                        "DOLocationID": "Int64",
+                        "payment_type": "Int64",
+                        "fare_amount": "float64",
+                        "extra": "float64",
+                        "mta_tax": "float64",
+                        "tip_amount": "float64",
+                        "tolls_amount": "float64",
+                        "improvement_surcharge": "float64",
+                        "total_amount": "float64"
+                        }
+    df: pd.DataFrame = pd.read_csv(data_url).astype(schema_dict, errors="ignore") #,parse_dates=[["tpep_pickup_datetime"],"tpep_dropoff_datetime"])
     return df
 
-@task(name='transformer for data', log_prints=True)
+@task(name="transformer for data", log_prints=True)
 def transform(df: pd.DataFrame)-> pd.DataFrame:
     """
     Transform/remove 0 passenger counts"
@@ -50,7 +69,7 @@ def transform(df: pd.DataFrame)-> pd.DataFrame:
     """
     
     print(f"\n*** Pre: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
-    df = df[df['passenger_count'] != 0]
+    df = df[df["passenger_count"] != 0]
     print(f"\n*** Post: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
     return df
 
@@ -63,7 +82,7 @@ def write_to_local(df:pd.DataFrame, path: Path)->None:
     :return None: None
     """
 
-    df.to_parquet(path, compression='gzip')
+    df.to_csv(path, compression="gzip")
     return path
 
 @task(name="loader",log_prints=True,) # set to True so that the result is logged in Prefect Cloud
@@ -80,7 +99,7 @@ def load(df:pd.DataFrame, path: Path)->None:
                                to_path=path)
     return 
 
-@flow(name='main etl', log_prints=True)
+@flow(name="main etl", log_prints=True)
 def main_flow(month: int, year: int, color: str) ->None:
     """  
     Main ETL pipeline
@@ -96,14 +115,15 @@ def main_flow(month: int, year: int, color: str) ->None:
     os.makedirs(Path(f"new_data/{color}/"), exist_ok=True)
     path = Path(f"new_data/{data_file}.gz")   
 
-    df: df.DataFrame = extract(data_url)
+    df: df.DataFrame = extract(data_url, color)
     # df: df.DataFrame = transform(df)
     path = write_to_local(df,path)
     load(df, path)
     return None
 
-@flow(name='github_gcs_dbt_etl', log_prints=True)
-def github_gcs_dbt_etl(months: list[int], years: list[int], colors: list[str])-> None:
+@flow(name="github_gcs_dbt_etl", log_prints=True)
+def github_gcs_dbt_etl(
+    months: list[int], years: list[int], colors: list[str])-> None:
     """  
     Run the main flow for a list of colors, months, months
 
@@ -115,9 +135,9 @@ def github_gcs_dbt_etl(months: list[int], years: list[int], colors: list[str])->
                 main_flow(month=month,year=year, color=color)
     return None
 
-if __name__=='__main__':
+if __name__=="__main__":
     
-    colors = ['yellow','green']
+    colors = ["yellow","green"]
     years = [2019,2020]
     months: list[int] = [1,2,3,4,5,6,7,8,9,10,11,12]
     github_gcs_dbt_etl(months=months,years=years, colors=colors)
