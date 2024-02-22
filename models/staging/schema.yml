@@ -10,14 +10,17 @@ sources:
 
     schema:
       trips_data_all
+      fhv_trips_data_2019
     # path where models are created at
 
     # loaded_at_field: record_loaded_at
     tables:
       - name: green_tripdata
       - name: yellow_tripdata
+      - name: fhv_tripdata
         # freshness:
         # error_after: {count: 6, period: hour}
+
 
 models:
   - name: stg_green_tripdata
