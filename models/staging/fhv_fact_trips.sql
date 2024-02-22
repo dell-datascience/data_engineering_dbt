@@ -25,4 +25,4 @@ inner join dim_zone as pickup_zone
 on fhv_tripdata.pickup_locationid = pickup_zone.locationid
 inner join dim_zone as dropoff_zone
 on fhv_tripdata.dropoff_locationid = dropoff_zone.locationid
--- where fhv_tripdata.pickup_locationid IS NOT NULL OR fhv_tripdata.dropoff_locationid IS NOT NULL
+where fhv_tripdata.pickup_locationid IS NOT NULL OR fhv_tripdata.dropoff_locationid IS NOT NULL
