@@ -12,7 +12,7 @@ dim_zone as (
     where borough!= 'Unknown'
 ) 
 
-select fhv_tripdata.*,
+select  fhv_tripdata.*,
         pickup_zone.borough as pickup_borough,
         pickup_zone.zone as pickup_zone,
         pickup_zone.service_zone as pickup_service_zone,
@@ -25,4 +25,4 @@ inner join dim_zone as pickup_zone
 on fhv_tripdata.pickup_locationid = pickup_zone.locationid
 inner join dim_zone as dropoff_zone
 on fhv_tripdata.dropoff_locationid = dropoff_zone.locationid
-where fhv_tripdata.pickup_locationid IS NOT NULL OR fhv_tripdata.dropoff_locationid IS NOT NULL
+where fhv_tripdata.pickup_locationid IS NOT NULL AND fhv_tripdata.dropoff_locationid IS NOT NULL
