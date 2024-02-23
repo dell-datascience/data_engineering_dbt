@@ -8,7 +8,7 @@ with tripdata as
   where vendorid is not null 
 )
 select
-   -- identifiers
+   -- identifiers 
     {{ dbt_utils.generate_surrogate_key(['vendorid', 'tpep_pickup_datetime']) }} as tripid,
     cast(vendorid as integer) as vendorid,
     cast(ratecodeid as integer) as ratecodeid,
@@ -39,6 +39,7 @@ select
     {{ get_payment_type_description('payment_type') }} as payment_type_description, 
     cast(congestion_surcharge as numeric) as congestion_surcharge
 from tripdata
+
 -- where rn = 1
 
 -- dbt build --m <model.sql> --var 'is_test_run: false'
