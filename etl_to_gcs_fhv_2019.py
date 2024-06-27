@@ -77,7 +77,7 @@ def main_flow(month: int, year: int) ->None:
     os.makedirs(Path(f"new_data/fhv/"), exist_ok=True)
     path = Path(f"new_data/fhv/{data_file}.gz")   
 
-    df: df.DataFrame = extract(data_url)
+    df: pd.DataFrame = extract(data_url)
     # df: df.DataFrame = transform(df)
     path = write_to_local(df,path)
     load(df, path)
